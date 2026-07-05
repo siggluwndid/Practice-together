@@ -19,10 +19,36 @@
 
 <BUtton>제출</BUtton>
 
-
+<div>
+    <b>주의</b>
+<p>벌점이 일정 수준 이상일시 불리한 점이 있을 수 있습니다.</p>
+<ul>
+    <li>10w</li>
+</ul>
+<button id = "check">상벌점 조회</button>
+<h3>당신의 벌점은 ${mijung}점 이고, 상점은 ${duksoon}점 입니다.</h3>
+<h3>당신의 총점은 ${duksoon - mijung}점 입니다.</h3>
+</div>
     
 </body>
 <script>
- let name = document.getElementById("name").value;
+    const respones = fetch("example/api")
+    const mijung = respones.jo
+    const duksoon = respones.park
+
+    if (mijung >= 20) {
+        fetch("example/api/sundo", {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ 
+                name : name,
+                state : "sundo"
+            })
+        })
+    }
+    
+    const name = document.getElementById("name").value;
 </script>
 </html>
