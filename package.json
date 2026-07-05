@@ -1,0 +1,24 @@
+{
+  "name": "practice-together",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/siggluwndid/Practice-together#readme",
+  "bugs": {
+    "url": "https://github.com/siggluwndid/Practice-together/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/siggluwndid/Practice-together.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "run"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.7.3"
+  }
+}
