@@ -6,6 +6,63 @@
     <title>Document</title>
 </head>
 <body>
-    
-</body>
-</html>
+<button id="btn">벌점부여</button>
+<textarea placeholder="누구에게 부여할지 입력해주세요" id="text"></textarea>
+<button id="btn2">상점부여</button>
+<textarea placeholder="누구에게 부여할지 입력해주세요" id="text2"></textarea>   
+<ul id="list"></ul>
+<textarea placeholder="벌점 수를 입력해주세요" id="num"></textarea>
+<textarea placeholder="상점 수를 입력해주세요" id="num2"></textarea>
+<script>
+    const ul =document.getElementById("list");
+    const btn = document.getElementById("btn");
+    const text = document.getElementById("text");
+    const btn2 = document.getElementById("btn2");
+    const text2 = document.getElementById("text2");
+    const num = document.getElementById("num");
+    const num2 = document.getElementById("num2");
+    btn.addEventListener("click", function() {
+    const name = text.value;
+    const score = Number(num.value);
+});
+   btn.addEventListener("click", function () {
+    const name = text.value;
+    const score = Number(num.value);
+
+    const li = document.createElement("li");
+    li.textContent = `${name} - 벌점 ${score}점`;
+
+    ul.appendChild(li);
+
+    text.value = "";
+    num.value = "";
+});
+btn2.addEventListener("click", function () {
+    const name = text2.value;
+    const score = Number(num2.value);
+
+    const li = document.createElement("li");
+    li.textContent = `${name} - 상점 ${score}점`;
+
+    ul.appendChild(li);
+
+    text2.value = "";
+    num2.value = "";
+});
+    btn2.addEventListener("click", function() {
+    const name = text2.value;
+    const score = Number(num2.value);
+
+    const li = document.createElement("li");
+    li.textContent = `${name} - 상점 ${score}점`;
+
+    ul.appendChild(li);
+
+    text2.value = "";
+    num2.value = "";
+        text2.value="";
+        num2.value="";
+});
+    </script>
+    </body>
+    </html>
