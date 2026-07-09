@@ -1,24 +1,18 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema(
+const studentSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Please add a name'],
+      required: [true, '학생 이름을 추가해 주세요'],
+    },
+    schoolnumber: {
+      type: Number,
+      required: [true, '학번을 추가 해 주세요'],
     },
     email: {
       type: String,
-      required: [true, 'Please add an email'],
-      unique: true,
-      match: [
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-        'Please add a valid email',
-      ],
-    },
-    password: {
-      type: String,
-      required: [true, 'Please add a password'],
-      minlength: 6,
+      required: [false, '이메일을 추가할시 이메일로 상,벌점 안내가 전송됩니다.'],
     },
   },
   {
@@ -26,4 +20,4 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Student', studentSchema);
