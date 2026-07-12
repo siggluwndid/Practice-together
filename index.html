@@ -2,211 +2,81 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
-    >
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+>
+    <title>Not Found</title>
+    <style>
+        body{
+    margin: 0;
+    height: 100vh;
 
-    <title>발표 장려를 위한 상벌점 부여 사이트</title>
+    display: flex;
+    justify-content: center; 
+    align-items: center;  
+     background-color: black;   
+     article{
+    background-color: #2b2b2b;}
+}
+
+.center{
+    text-align: center;
+}
+        h1{
+            font-size:150px;
+            color:white;
+            margin:0;
+        }
+
+        h2{
+            color:white;
+            margin-top:10px;
+        }
+
+        p{
+            color:#d0d0d0;
+        }
+    </style>
+
+
+
 </head>
-
 <body>
-    <main class="container">
+    <article>
+    <div class = "center">
         <div>
-            <img src="logo.webp" alt="만덕중학교 로고">
-            <p>만덕중학교 상·벌점 통합관리 페이지</p>
+            <h1>404</h1>
+            <h2>페이지를 찾을 수 없습니다.</h2>
+            <p>주소가 올바른지 확인하거나 홈으로 돌아가 주세요.</p>
+            <a href="index.html" role="button">
+            홈으로
+        </a>
         </div>
-
-        <div>
-            <label for="name">학생 이름</label>
-            <input
-                type="text"
-                id="name"
-                placeholder="학생 이름을 입력하세요"
-            >
-
-            <label for="score">점수</label>
-            <input
-                type="number"
-                id="score"
-                min="1"
-                placeholder="점수를 입력하세요"
-            >
-
-            <label for="sangse">상·벌점 부여 이유</label>
-            <textarea
-                name="naeyoung"
-                id="sangse"
-                placeholder="상·벌점을 받게 된 이유를 서술해 주세요."
-            ></textarea>
-        </div>
-
-        <div class="grid">
-            <button id="beol-button">벌점 부여</button>
-            <button id="sang-button">상점 부여</button>
-        </div>
-
-        <details open>
-            <summary role="button" class="outline">
-                벌점이 일정 수준 이상이면 불이익이 있을 수 있습니다.
-            </summary>
-
-            <p>10점 이상: 학년 봉사</p>
-            <p>20점 이상: 선도위원회 회부</p>
-            <p>30점 이상: 학교 규정에 따른 추가 조치</p>
-        </details>
-
-        <button id="check">상벌점 조회</button>
-
-        <h3 id="score-result">
-            이름을 입력하고 상벌점을 조회해 주세요.
-        </h3>
-
-        <h3 id="total-result"></h3>
-    </main>
-
-    <script>
-        const API_URL = "example/api";
-
-        async function 점수부여(type) {
-            const nameValue = document.getElementById("name").value.trim();
-            const scoreValue = Number(
-                document.getElementById("score").value
-            );
-            const naeyoungValue = document
-                .getElementById("sangse")
-                .value
-                .trim();
-
-            if (!nameValue) {
-                alert("학생 이름을 입력해 주세요.");
-                return;
-            }
-
-            if (!scoreValue || scoreValue <= 0) {
-                alert("1점 이상의 점수를 입력해 주세요.");
-                return;
-            }
-
-            if (!naeyoungValue) {
-                alert("상·벌점 부여 이유를 입력해 주세요.");
-                return;
-            }
-
-            const requestData = {
-                name: nameValue,
-                message: naeyoungValue
-            };
-
-            if (type === "beol") {
-                requestData.beol = scoreValue;
-            } else {
-                requestData.sang = scoreValue;
-            }
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(requestData)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`서버 응답 오류: ${response.status}`);
-                }
-
-                const message =
-                    type === "beol"
-                        ? "벌점이 부여되었습니다."
-                        : "상점이 부여되었습니다.";
-
-                alert(message);
-                console.log(message);
-            } catch (error) {
-                console.error("데이터 전송 오류:", error);
-                alert("데이터 전송에 실패했습니다.");
-            }
-        }
-
-        async function 조회및선도체크() {
-            const nameValue = document.getElementById("name").value.trim();
-
-            if (!nameValue) {
-                alert("조회할 학생 이름을 입력해 주세요.");
-                return;
-            }
-
-            try {
-                const response = await fetch(
-                    `${API_URL}?name=${encodeURIComponent(nameValue)}`
-                );
-
-                if (!response.ok) {
-                    throw new Error(`서버 응답 오류: ${response.status}`);
-                }
-
-                const data = await response.json();
-
-                const mijung = Number(data.beol) || 0;
-                const duksoon = Number(data.sang) || 0;
-                const totalScore = duksoon - mijung;
-
-                document.getElementById("score-result").textContent =
-                    `${nameValue} 학생의 벌점은 ${mijung}점이고, ` +
-                    `상점은 ${duksoon}점입니다.`;
-
-                document.getElementById("total-result").textContent =
-                    `총점은 ${totalScore}점입니다.`;
-
-                if (mijung >= 20) {
-                    const sundoResponse = await fetch(
-                        `${API_URL}/sundo`,
-                        {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({
-                                name: nameValue,
-                                state: "sundo"
-                            })
-                        }
-                    );
-
-                    if (!sundoResponse.ok) {
-                        throw new Error(
-                            `선도위 데이터 전송 오류: ${sundoResponse.status}`
-                        );
-                    }
-
-                    console.log(
-                        `${nameValue} 학생 선도위 데이터 전송 완료`
-                    );
-                }
-            } catch (error) {
-                console.error("데이터 조회 오류:", error);
-                alert("상벌점 조회에 실패했습니다.");
-            }
-        }
-
-        document
-            .getElementById("beol-button")
-            .addEventListener("click", () => 점수부여("beol"));
-
-        document
-            .getElementById("sang-button")
-            .addEventListener("click", () => 점수부여("sang"));
-
-        document
-            .getElementById("check")
-            .addEventListener("click", 조회및선도체크);
-    </script>
+    </div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
