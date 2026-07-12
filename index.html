@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>발표 장려를 위한 상점 부여 사이트</title>
 </head>
 <body>
-<div><h1>사이트 소개</h1>
-<p>이 사이트은 학생들의 발표를 장려하기 위해 
-   발표를 한다면 상점이 부여되는 간편하고 간단한 사이트입니다.</p></div>
+<div><img src = "logo.webp">
+<p>만덕중학교 상/벌점 통합관리 페이지</p></div>
 <div>
     <input type="text", id = "name">
+    <input type="number", id = "score">
+    <textarea name="naeyoung" id="sangse">상/벌점을 받게된 이유를 서술하여 주세요.</textarea>
 </div>
 
 
@@ -19,36 +24,90 @@
 
 <BUtton>제출</BUtton>
 
-<div>
-    <b>주의</b>
-<p>벌점이 일정 수준 이상일시 불리한 점이 있을 수 있습니다.</p>
-<ul>
-    <li>10w</li>
-</ul>
+<div class="grid">
+    <details name="example" open>
+  <summary role="button" class="outline" >벌점이 일정 수준 이상일시 불리한 점이 있을 수 있습니다.</summary>
+  <p>10점 이상: 학년봉사</p>
+  <p>20점 이상: 선도 위원회 회부</p>
+  <p>30점 이상: 강제 전학등 만덕중학교에 정상적으로 등교할수 없음.</p>
+</details>
+
 <button id = "check">상벌점 조회</button>
-<h3>당신의 벌점은 ${mijung}점 이고, 상점은 ${duksoon}점 입니다.</h3>
+<h3 id = "상벌점조회">당신의 벌점은 ${mijung}점 이고, 상점은 ${duksoon}점 입니다.</h3>
 <h3>당신의 총점은 ${duksoon - mijung}점 입니다.</h3>
 </div>
     
 </body>
 <script>
-    const respones = fetch("example/api")
-    const mijung = respones.jo
-    const duksoon = respones.park
 
-    if (mijung >= 20) {
-        fetch("example/api/sundo", {
+document.getElementById("벌점").addEventListener("click", async () => {
+    
+    // 2. document. 추가 및 .value 뒤의 괄호() 제거
+    const nameValue = document.getElementById("name").value;
+    const scoreValue = document.getElementById("score").value;
+
+    try {
+        // 3. fetch 요청 실행
+        const response = await fetch("example/api/sundo", {
             method: 'POST',
+            // JSON 데이터를 보낸다고 서버에 알려주는 헤더 추가
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ 
-                name : name,
-                state : "sundo"
+            // 4. body 데이터를 JSON.stringify로 감싸서 문자열로 전송
+            body: JSON.stringify({
+                name: nameValue,
+                beol: scoreValue
             })
-        })
+        });
+
+        if (response.ok) {
+            console.log("선도위 데이터 전송 성공!");
+        } else {
+            console.error("서버 응답 에러:", response.status);
+        }
+
+    } catch (error) {
+        // 5. catch 블록에 에러 로그 확인용 코드 추가
+        console.error("네트워크 에러 발생:", error);
     }
-    
+});
+
+async function 조회및선도췤() {
+    // 1. 함수가 실행되는 순간 화면에서 이름을 읽어옵니다.
     const name = document.getElementById("name").value;
+
+    try {
+        // 2. 함수 내부에서 fetch를 호출하고 await로 기다립니다.
+        const response = await fetch("example/api");
+        const data = await response.json(); // 데이터를 JSON 객체로 파싱
+
+        // 3. 응답 데이터에서 벌점과 상점을 가져옵니다.
+        const mijung = data.beol;
+        const duksoon = data.sang;
+
+        // 4. innerHTML 오타 수정 및 대입(=) 방식으로 변경
+        document.getElementById("상벌점조회").innerHTML = `
+            당신의 벌점은 ${mijung}점 이고 상점은 ${duksoon}점 입니다.
+        `;
+
+        // 5. 벌점이 20점 이상일 때 선도위 감지 POST 요청 보냄
+        if (mijung >= 20) {
+            await fetch("example/api/sundo", {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ 
+                    name: name,
+                    state: "sundo"
+                })
+            });
+            console.log(`${name} 학생 선도위 데이터 전송 완료`);
+        }
+    } catch (error) {
+        console.error("데이터 처리 중 에러가 발생했습니다:", error);
+    }
+}
 </script>
 </html>
