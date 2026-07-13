@@ -126,6 +126,7 @@
 
                 if (!response.ok) {
                     throw new Error(`서버 응답 오류: ${response.status}`);
+                    location.href ="index(5).html"
                 }
 
                 const message =
@@ -156,6 +157,7 @@
 
                 if (!response.ok) {
                     throw new Error(`서버 응답 오류: ${response.status}`);
+                     location.href ="index(5).html"
                 }
 
                 const data = await response.json();
@@ -188,7 +190,8 @@
 
                     if (!sundoResponse.ok) {
                         throw new Error(
-                            `선도위 데이터 전송 오류: ${sundoResponse.status}`
+                            `선도위 데이터 전송 오류: ${sundoResponse.status}`,
+                             location.href ="index(5).html"
                         );
                     }
 
